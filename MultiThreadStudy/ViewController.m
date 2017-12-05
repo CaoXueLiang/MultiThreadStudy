@@ -23,7 +23,8 @@
     //[self example7];
     //[self example8];
     //[self example10];
-    [self example11];
+    //[self example11];
+    [self example12];
 }
 
 - (void)example1{
@@ -249,6 +250,31 @@
         bundle = [NSBundle bundleWithPath:path];
     });
     return bundle;
+}
+
+/*dispatch实现定时器*/
+- (void)example12{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    //每秒执行
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0);
+
+    //指定定时器指定时间内执行的处理
+    dispatch_source_set_event_handler(_timer, ^{
+        NSLog(@"text");
+        if(time <= 0){
+            //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+            });
+        }else{
+            
+        }
+    });
+    
+    //启动 Dispatch Source
+    dispatch_resume(_timer);
 }
 
 @end
