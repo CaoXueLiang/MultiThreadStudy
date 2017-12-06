@@ -18,14 +18,14 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
-    //[self example5];
+    //[self example4];
+    [self example5];
     //[self example6];
     //[self example7];
     //[self example8];
     //[self example10];
     //[self example11];
-    [self example12];
-    
+    //[self example12];
 }
 
 - (void)example1{
@@ -103,13 +103,25 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_async(group, queue, ^{
-        NSLog(@"block0");
+        NSURL *imageUrl = [NSURL URLWithString:@"https://wx1.sinaimg.cn/mw690/9bbc284bgy1flt5w1kf5gj20dw0ku13h.jpg"];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        if (imageData) {
+            NSLog(@"block1");
+        }
     });
     dispatch_group_async(group, queue, ^{
-        NSLog(@"block1");
+        NSURL *imageUrl = [NSURL URLWithString:@"https://wx3.sinaimg.cn/mw690/9bbc284bgy1fly7dmgh87j20gq0r6akh.jpg"];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        if (imageData) {
+            NSLog(@"block2");
+        }
     });
     dispatch_group_async(group, queue, ^{
-        NSLog(@"block2");
+        NSURL *imageUrl = [NSURL URLWithString:@"https://wx3.sinaimg.cn/mw690/9bbc284bgy1fly7dmgh87j20gq0r6akh.jpg"];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        if (imageData) {
+            NSLog(@"block3");
+        }
     });
     dispatch_group_notify(group, queue, ^{
         NSLog(@"执行完毕");
