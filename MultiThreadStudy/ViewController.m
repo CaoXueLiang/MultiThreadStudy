@@ -25,6 +25,7 @@
     //[self example10];
     //[self example11];
     [self example12];
+    
 }
 
 - (void)example1{
@@ -52,16 +53,27 @@
     dispatch_queue_t mySerialDispatchQueue = dispatch_queue_create("caoxueliang.MultiThreadStudy.mySerialDispatchQueue", NULL);
     dispatch_queue_t myConcurrentDispatchQueue = dispatch_queue_create("caoxueliang.MultiThreadStudy.myConcurrentDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
     
-    //在Concurrent Dispatch Queue中执行指定的Block
+    dispatch_async(mySerialDispatchQueue, ^{
+        NSLog(@"block on mySerialDispatchQueue");
+    });
+    
     dispatch_async(myConcurrentDispatchQueue, ^{
         NSLog(@"block on myConcurrentDispatchQueue");
     });
     
     
     ///2. 获取系统标准提供的 Dispatch Queue
-    dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();
-    
-    dispatch_queue_t globalDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+   
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        /*
+         * 可并行执行的处理
+         */
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //只能在主线程中执行的处理，更新UI
+        });
+    });
 }
 
 
@@ -275,6 +287,10 @@
     
     //启动 Dispatch Source
     dispatch_resume(_timer);
+}
+
+- (void)tmp{
+    
 }
 
 @end
