@@ -19,9 +19,9 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     //[self example4];
-    [self example5];
+    //[self example5];
     //[self example6];
-    //[self example7];
+    [self example7];
     //[self example8];
     //[self example10];
     //[self example11];
@@ -147,23 +147,37 @@
 
 - (void)example7{
     dispatch_queue_t queue = dispatch_queue_create("com.example.gcd.ForBarrier", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{NSLog(@"block0_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block1_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block2_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block3_for_reading");});
-    
-    /*
-     写入处理
-     将写入的内容读取之后的处理中
-     */
+    dispatch_async(queue, ^{
+        sleep(4);
+        NSLog(@"block0_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(1);
+        NSLog(@"block1_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(2);
+        NSLog(@"block2_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(2);
+        NSLog(@"block3_for_reading");});
+//    dispatch_async(queue, ^{
+//        sleep(3);
+//        NSLog(@"写入处理");});
+//
     dispatch_barrier_async(queue, ^{
-        NSLog(@"block_for_waiting");
+        NSLog(@"写入处理");
     });
     
-    dispatch_async(queue, ^{NSLog(@"block4_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block5_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block6_for_reading");});
-    dispatch_async(queue, ^{NSLog(@"block7_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(1);
+        NSLog(@"block4_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(2);
+        NSLog(@"block5_for_reading");});
+    dispatch_async(queue, ^{
+        sleep(4);
+        NSLog(@"block6_for_reading");});
+    dispatch_async(queue, ^{
+        NSLog(@"block7_for_reading");});
 }
 
 - (void)example8{
